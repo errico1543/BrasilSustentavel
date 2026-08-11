@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .justified {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #wid1div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-self: center;
+            flex-direction: column;
+        }
+        #wid2div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-self: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="justified">Brasíl sustentável</h1>
+
+    <h3 class="justified">Agora você irá responder um formulário que pode dizer <br>
+quanto você impacta no meio ambiente (Quanto menor o número, melhor) <br>
+na sua casa.</h3>
+
+        <h2 class="justified">Da Origem ao Destino: A Logística por Trás do Consumo</h2>
+        <p class="justified">Já parou para pensar em tudo o que acontece até um produto chegar às suas mãos? <br>
+ No Brasil, mais de 60% de todas as mercadorias são transportadas por rodovias.
+ Isso significa milhares de caminhões movidos <br> a diesel rodando diariamente, queimando combustível fóssil <br> e liberando na atmosfera toneladas de fuligem, monóxido de
+ carbono e óxidos de nitrogênio.
+ Cada escolha de compra que <br> fazemos — do frete expresso ao produto importado — aciona uma engrenagem <br> logística que consome
+ recursos e impacta diretamente a qualidade do ar que respiramos.</p>
+ <img src="imagens/images (1).jpe" alt="" style="height: 200px; width: 280px; display: block; margin: auto;">
+
+ <img src="" alt="">
+
+ <h3 class="justified">Com que frequência você faz compras online com entrega na sua casa?</h3>
+ <!--WID1 HERE-->
+<div id="wid1div">
+ <select id="wid1" name="wid1">
+  <option value="varias">Têm semanas que várias.</option>
+  <option value="1 a 2 vezes">1 a 2 vezes por mês</option>
+  <option value="raro">Raras vezes</option>
+</select>
+<h3>Quando faz a compra, qual tipo de entrega costuma escolher?</h3>
+<!--WID1p2 HERE-->
+<select name="wid1p2" id="wid1p2">
+    <option value="Entrega economica">Entrega Econômica</option>
+    <option value="Entrega expressa">Entrega Expressa</option>
+</select>
+</div>
+<h1 class="justified">A Mobilidade Urbana do  Dia a Dia</h1>
+<p class="justified">O trânsito das cidades é um dos principais vilões da poluição atmosférica e das mudanças climáticas <br>
+ O uso massivo de veículos individuais movidos a gasolina ou etanol, muitas vezes transportando apenas <br>
+ uma pessoa, gera um grande gargalo urbano: mais engarrafamentos, maior tempo de motor ligado sem sair do lugar <br>
+ e uma quantidade massiva de poluentes concentrada no ar que a população respira. Entender como nos deslocamos todos <br>
+ os dias é o primeiro passo para identificar alternativas mais inteligentes, integradas e sustentáveis.</p>
+
+<div id="wid2div">
+<h3>Qual meio de transporte você costuma usar frequentemente?</h3>
+<select name="wid2" id="wid2">
+    <option value="privado">Carro próprio / Aplicativo</option>
+    <option value="publico"> Ônibus / Trem / Metro</option>
+    <option value="a pe"> A pé / Bicicleta / Patinete</option>
+</select>
+<h3>Quantos quilômetros (aproximadamente) você percorre nesse trajeto de ida e volta?</h3>
+<input type="number" name="km" id="inputkm" min="0" max="999" placeholder="Quilômetros" width="100px">
+</div>
+
+<Button id="gimmetheres" onclick="calcular()">Calcular</Button>
+<p id="res"></p>
+</body>
+
+
+<script>
+
+    
+
+    function calcular() {
+
+        let impacto = 0;
+
+        const wid1frequence = document.getElementById("wid1");
+        const wid1type = document.getElementById("wid1p2");
+
+        const wid2transport = document.getElementById("wid2");
+        const wid2inputkm = document.getElementById("inputkm");
+        let impactomessage;
+
+        let comprafrequencia = wid1frequence.value;
+        const impactocompras = {
+            "raro": 5,
+            "1 a 2 vezes": 15,
+            "varias": 30
+        };
+
+        let entregatipo = wid1type.value;
+        const entregaimpacto = {
+            "Entrega economica": 10,
+            "Entrega expressa": 30
+        };
+        let meiotransporte = wid2transport.value;
+        const meiotransporteimpacto = {
+            "privado": 30,
+            "publico": 10,
+            "a pe": 0
+        };
+        let quilometros = Number(wid2inputkm.value);
+
+        impacto += impactocompras[comprafrequencia];
+        impacto += entregaimpacto[entregatipo];
+        impacto += meiotransporteimpacto[meiotransporte];
+
+        impacto += quilometros * 0.5;
+
+
+        if (impacto <= 30) {
+            impactomessage = `Impacto baixo [${impacto}], Ótimo! continue assim!!!`;
+        }
+        else if (impacto <= 60) {
+            impactomessage = `Impacto médio [${impacto}], Nada mal!`;
+        }
+        else {
+            impactomessage = `Impacto alto [${impacto}], Você pode melhorar! preferindo transporte público e caminhar à automóveis privados é um ótimo começo.`
+        }
+
+        document.getElementById("res").textContent = `Seu impacto foi ${impactomessage}`
+    }
+
+</script>
+</html>
