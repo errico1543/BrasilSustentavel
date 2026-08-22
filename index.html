@@ -25,14 +25,57 @@
             align-self: center;
             flex-direction: column;
         }
+        .formSelector {
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 18px;
+            border-left: 3px rgb(26, 128, 223) solid;
+        }
+        #gimmetheres {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 18px;
+        }
+        #distanceKmInput {
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 18px;
+            border-bottom: 3px black dashed;
+        }
+        #res {
+            display: block;
+            margin: 20px auto;
+        }
+        #apresentacao {
+            height: 400px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        #apresentacao::Before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url(imagens/Title.jpe) center / cover;
+            filter: blur(10px);
+        }
+        #apresentacao > * {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
-    <h1 class="justified">Brasíl sustentável</h1>
+    <div id="apresentacao">
+    <h1 class="justified"><span style="color: green;">Bra</span><span style="color: yellow;">sil</span>  Sustentável</h1>
 
     <h3 class="justified">Agora você irá responder um formulário que pode dizer <br>
 quanto você impacta no meio ambiente (Quanto menor o número, melhor) <br>
 na sua casa.</h3>
+</div>
 
         <h2 class="justified">Da Origem ao Destino: A Logística por Trás do Consumo</h2>
         <p class="justified">Já parou para pensar em tudo o que acontece até um produto chegar às suas mãos? <br>
@@ -46,16 +89,21 @@ na sua casa.</h3>
  <img src="" alt="">
 
  <h3 class="justified">Com que frequência você faz compras online com entrega na sua casa?</h3>
- <!--WID1 HERE-->
+
+
+ <!--PURCHASEFREQUENCYSELECT HERE-->
 <div id="wid1div">
- <select id="wid1" name="wid1">
-  <option value="varias">Têm semanas que várias.</option>
-  <option value="1 a 2 vezes">1 a 2 vezes por mês</option>
-  <option value="raro">Raras vezes</option>
+ <select id="purchaseFrequency" name="wid1" class="formSelector">
+  <option value="semanalmente">Semanalmente</option>
+  <option value="2 vezes">2 vezes por mês</option>
+  <option value="mensalmente">Mensalmente</option>
+  <option value="raramente">Raramente</option>
 </select>
 <h3>Quando faz a compra, qual tipo de entrega costuma escolher?</h3>
-<!--WID1p2 HERE-->
-<select name="wid1p2" id="wid1p2">
+
+
+<!--DELIVERYTYPE HERE-->
+<select name="wid1p2" id="deliveryType" class="formSelector">
     <option value="Entrega economica">Entrega Econômica</option>
     <option value="Entrega expressa">Entrega Expressa</option>
 </select>
@@ -67,15 +115,16 @@ na sua casa.</h3>
  e uma quantidade massiva de poluentes concentrada no ar que a população respira. Entender como nos deslocamos todos <br>
  os dias é o primeiro passo para identificar alternativas mais inteligentes, integradas e sustentáveis.</p>
 
+ <!--TRANSPORTTYPE HERE-->
 <div id="wid2div">
 <h3>Qual meio de transporte você costuma usar frequentemente?</h3>
-<select name="wid2" id="wid2">
+<select name="wid2" id="transportType" class="formSelector">
     <option value="privado">Carro próprio / Aplicativo</option>
     <option value="publico"> Ônibus / Trem / Metro</option>
     <option value="a pe"> A pé / Bicicleta / Patinete</option>
 </select>
 <h3>Quantos quilômetros (aproximadamente) você percorre nesse trajeto de ida e volta?</h3>
-<input type="number" name="km" id="inputkm" min="0" max="999" placeholder="Quilômetros" width="100px">
+<input type="number" name="km" id="distanceKmInput" min="0" max="999" placeholder="Quilômetros" width="100px">
 </div>
 
 <Button id="gimmetheres" onclick="calcular()">Calcular</Button>
@@ -91,51 +140,69 @@ na sua casa.</h3>
 
         let impacto = 0;
 
-        const wid1frequence = document.getElementById("wid1");
-        const wid1type = document.getElementById("wid1p2");
+        const purchaseFrequencySelect =
+         document.getElementById("purchaseFrequency");
+        const deliveryTypeSelect = document.getElementById("deliveryType");
 
-        const wid2transport = document.getElementById("wid2");
-        const wid2inputkm = document.getElementById("inputkm");
-        let impactomessage;
+        const transportTypeSelect =
+         document.getElementById("transportType");
 
-        let comprafrequencia = wid1frequence.value;
+        const distanceKmInputSelect =
+         document.getElementById("distanceKmInput");
+
+        let impactmessage;
+
+        let comprafrequencia = purchaseFrequencySelect.value;
         const impactocompras = {
-            "raro": 5,
-            "1 a 2 vezes": 15,
-            "varias": 30
+            "raramente": 5,
+            "mensalmente": 10,
+            "2 vezes": 15,
+            "semanalmente": 30
         };
 
-        let entregatipo = wid1type.value;
+        let entregatipo = deliveryTypeSelect.value;
         const entregaimpacto = {
             "Entrega economica": 10,
             "Entrega expressa": 30
         };
-        let meiotransporte = wid2transport.value;
+
+        let meiotransporte = transportTypeSelect.value;
         const meiotransporteimpacto = {
             "privado": 30,
             "publico": 10,
             "a pe": 0
         };
-        let quilometros = Number(wid2inputkm.value);
+
+        let quilometros = Number(distanceKmInputSelect.value);
 
         impacto += impactocompras[comprafrequencia];
         impacto += entregaimpacto[entregatipo];
         impacto += meiotransporteimpacto[meiotransporte];
 
         impacto += quilometros * 0.5;
+        
+        let carbono = 0;
+
+        if (meiotransporte === "privado") {
+            carbono = 0.250 * quilometros;
+            carbono = `${carbono.toFixed(2)} kg de CO₂ emitidos pelo meio de transporte utilizado.`;
+        }
+        else {
+            carbono = "Sem estimativa de emissão direta de CO₂ para este transporte";
+        }
 
 
         if (impacto <= 30) {
-            impactomessage = `Impacto baixo [${impacto}], Ótimo! continue assim!!!`;
+            impactmessage = `Impacto baixo [${impacto}], Ótimo! continue assim!!! ${carbono}`;
         }
         else if (impacto <= 60) {
-            impactomessage = `Impacto médio [${impacto}], Nada mal!`;
+            impactmessage = `Impacto médio [${impacto}], Nada mal! ${carbono}`;
         }
         else {
-            impactomessage = `Impacto alto [${impacto}], Você pode melhorar! preferindo transporte público e caminhar à automóveis privados é um ótimo começo.`
+            impactmessage = `Impacto alto [${impacto}], Você pode melhorar! preferindo transporte público e caminhar à automóveis privados é um ótimo começo. ${carbono}`
         }
 
-        document.getElementById("res").textContent = `Seu impacto foi ${impactomessage}`
+        document.getElementById("res").textContent = `Seu impacto foi ${impactmessage}`
     }
 
 </script>
