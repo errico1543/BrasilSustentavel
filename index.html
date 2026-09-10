@@ -79,11 +79,12 @@ na sua casa.</h3>
 
         <h2 class="justified">Da Origem ao Destino: A Logística por Trás do Consumo</h2>
         <p class="justified">Já parou para pensar em tudo o que acontece até um produto chegar às suas mãos? <br>
- No Brasil, mais de 60% de todas as mercadorias são transportadas por rodovias.
+ Segundo o Ministério dos transportes e a Confederação Nacional do Transporte, No Brasil, mais de 65% de todas as mercadorias são transportadas por rodovias.
  Isso significa milhares de caminhões movidos <br> a diesel rodando diariamente, queimando combustível fóssil <br> e liberando na atmosfera toneladas de fuligem, monóxido de
  carbono e óxidos de nitrogênio.
  Cada escolha de compra que <br> fazemos — do frete expresso ao produto importado — aciona uma engrenagem <br> logística que consome
  recursos e impacta diretamente a qualidade do ar que respiramos.</p>
+ <p style="font-style: italic;" class="justified">Fontes: Ministério dos Transportes: https://www.gov.br/transportes/pt-br/assuntos/transporte-terrestre/transporte-rodoviario-de-cargas/capa || Confederação Nacional do Transporte CNT: https://cdn.cnt.org.br/diretorioVirtualPrd/907973a7-6dc6-4006-b683-9e6ef6bc1505.pdf </p>
  <img src="imagens/images (1).jpe" alt="" style="height: 200px; width: 280px; display: block; margin: auto;">
 
  <img src="" alt="">
@@ -94,19 +95,57 @@ na sua casa.</h3>
  <!--PURCHASEFREQUENCYSELECT HERE-->
 <div id="wid1div">
  <select id="purchaseFrequency" name="wid1" class="formSelector">
-  <option value="semanalmente">Semanalmente</option>
-  <option value="2 vezes">2 vezes por mês</option>
-  <option value="mensalmente">Mensalmente</option>
-  <option value="raramente">Raramente</option>
+    <option value="nunca">Nunca</option>
+    <option value="raramente">Raramente</option>
+    <option value="1 vez">1 vez por mês</option>
+    <option value="2 vezes">2 a 3 vezes por mês</option>
+    <option value="toda semana">Toda semana</option>
+    <option value="varias vezes">Várias vezes por semana</option>
 </select>
 <h3>Quando faz a compra, qual tipo de entrega costuma escolher?</h3>
-
 
 <!--DELIVERYTYPE HERE-->
 <select name="wid1p2" id="deliveryType" class="formSelector">
     <option value="Entrega economica">Entrega Econômica</option>
     <option value="Entrega expressa">Entrega Expressa</option>
 </select>
+<h3>Se a entrega econômica demora mais, você aceitaria esperar para reduzir possíveis impactos ambientais?</h3>
+<select name="wid1p3" id="demoramais" class="formSelector">
+    <option value="sim">Sim</option>
+    <option value="talvez">Talvez</option>
+    <option value="nao">Não</option>
+</select>
+
+<!--ITEM TYPE HERE-->
+<h3>Oque você mais compra pela internet?</h3>
+<select name="wid1p4" id="itemtype" class="formSelector">
+    <option value="roupas"> Roupas e calçados</option>
+    <option value="eletronicos">Eletrônicos</option>
+    <option value="alimentos">Alimentos</option>
+    <option value="produtos higiene">Produtos de higiene</option>
+    <option value="produtos casa">Produtos para casa</option>
+    <option value="outros">Outros</option>
+</select>
+<h3>Antes de comprar, você costuma verificar se realmente precisa do produto?</h3>
+<select name="wid1p5" id="precisaproduto" class="formSelector">
+    <option value="sempre">Sempre</option>
+    <option value="as vezes">Ás vezes</option>
+    <option value="raramente">Raramente</option>
+    <option value="nunca">Nunca</option>
+</select>
+<h3>Você costuma fazer várias compras pequenas ou prefere juntar produtos em uma única compra?</h3>
+<select name="wid1p6" id="variascompras" class="formSelector">
+    <option value="varias compras">Muitas compras pequenas</option>
+    <option value="tudo junto">Geralmente compro tudo junto</option>
+    <option value="depende">Depende da situação</option>
+</select>
+<h3>Você já comprou um produto sem necessidade apenas porque estava em promoção?</h3>
+<select name="widp7" id="semnecessidade" class="formSelector">
+    <option value="sim">Sim</option>
+    <option value="nao">Não</option>
+    <option value="as vezes">Algumas vezes</option>
+</select>
+
 </div>
 <h1 class="justified">A Mobilidade Urbana do  Dia a Dia</h1>
 <p class="justified">O trânsito das cidades é um dos principais vilões da poluição atmosférica e das mudanças climáticas <br>
@@ -146,6 +185,21 @@ na sua casa.</h3>
 
         const transportTypeSelect =
          document.getElementById("transportType");
+        
+        const itemtypeSelect =
+         document.getElementById("itemtype");
+
+        const sedemoramais =
+         document.getElementById("demoramais");
+        
+        const necessarySelect =
+         document.getElementById("precisaproduto");
+        
+        const variascomprasSelect =
+         document.getElementById("variascompras");
+
+        const necessidadeSelect =
+         document.getElementById("semnecessidade");
 
         const distanceKmInputSelect =
          document.getElementById("distanceKmInput");
@@ -154,16 +208,57 @@ na sua casa.</h3>
 
         let comprafrequencia = purchaseFrequencySelect.value;
         const impactocompras = {
+            "nunca": 0,
             "raramente": 5,
-            "mensalmente": 10,
-            "2 vezes": 15,
-            "semanalmente": 30
+            "1 vez": 10,
+            "2 vezes": 20,
+            "toda semana": 35,
+            "varias vezes": 45,
         };
 
         let entregatipo = deliveryTypeSelect.value;
         const entregaimpacto = {
             "Entrega economica": 10,
-            "Entrega expressa": 30
+            "Entrega expressa": 20
+        };
+        
+        let itemtipo = itemtypeSelect.value;
+        const itemimpacto = {
+            "roupas": 5,
+            "alimentos": 5,
+            "eletronicos": 10,
+            "produtos higiene": 10,
+            "produtos casa": 10,
+            "outros": 5
+        };
+
+        let demora = sedemoramais.value;
+        const demoraimpacto = {
+            "sim": 0,
+            "talvez": 5,
+            "nao": 10
+        };
+
+        let necessario = necessarySelect.value;
+        const necessarioimpacto = {
+            "sempre": 0,
+            "as vezes": 5,
+            "raramente": 10,
+            "nunca":  15
+        };
+
+        let variascompras = variascomprasSelect.value;
+        const variascomprasimpacto = {
+            "varias compras": 15,
+            "tudo junto": 5,
+            "depende": 10
+        };
+
+        let necessidade = necessidadeSelect.value;
+        const necessidadeimpacto = {
+            "sim": 0,
+            "nao": 10,
+            "as vezes": 15
         };
 
         let meiotransporte = transportTypeSelect.value;
@@ -177,6 +272,11 @@ na sua casa.</h3>
 
         impacto += impactocompras[comprafrequencia];
         impacto += entregaimpacto[entregatipo];
+        impacto += itemimpacto[itemtipo];
+        impacto += necessarioimpacto[necessario];
+        impacto += demoraimpacto[demora];
+        impacto += variascomprasimpacto[variascompras];
+        impacto += necessidadeimpacto[necessidade];
         impacto += meiotransporteimpacto[meiotransporte];
 
         impacto += quilometros * 0.5;
@@ -185,24 +285,24 @@ na sua casa.</h3>
 
         if (meiotransporte === "privado") {
             carbono = 0.250 * quilometros;
-            carbono = `${carbono.toFixed(2)} kg de CO₂ emitidos pelo meio de transporte utilizado.`;
+            carbono = `${carbono.toFixed(2)} kg de CO₂ emitidos pelo meio de transporte utilizado. ${comprafrequencia} ${entregatipo} ${necessidade} ${meiotransporte} ${demora}`;
         }
         else {
             carbono = "Sem estimativa de emissão direta de CO₂ para este transporte";
         }
 
 
-        if (impacto <= 30) {
+        if (impacto <= 70) {
             impactmessage = `Impacto baixo [${impacto}], Ótimo! continue assim!!! ${carbono}`;
         }
-        else if (impacto <= 60) {
+        else if (impacto <= 110) {
             impactmessage = `Impacto médio [${impacto}], Nada mal! ${carbono}`;
         }
         else {
-            impactmessage = `Impacto alto [${impacto}], Você pode melhorar! preferindo transporte público e caminhar à automóveis privados é um ótimo começo. ${carbono}`
+            impactmessage = `Impacto alto [${impacto}], Você pode melhorar! preferindo transporte público e caminhar à automóveis privados é um ótimo começo. ${carbono}`;
         }
 
-        document.getElementById("res").textContent = `Seu impacto foi ${impactmessage}`
+        document.getElementById("res").textContent = `Seu impacto foi ${impactmessage}`;
     }
 
 </script>
